@@ -3,7 +3,7 @@ package se.jroc.game_of_life;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class GOLController {
     @FXML
     private Label welcomeText;
 
