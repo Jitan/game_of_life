@@ -23,4 +23,35 @@ public class GOLBoard {
     public int getCellState(int i, int j) {
         return board[i][j];
     }
+
+    public void randomize() {
+        for (int[] ints : board) {
+            Arrays.fill(ints, (int) (Math.random() * 2));
+        }
+    }
+
+    public int countNeighbourCells(int i, int i1) {
+        int count = 0;
+        for (int j = i - 1; j <= i + 1; j++) {
+            for (int k = i1 - 1; k <= i1 + 1; k++) {
+                if (j >= 0 && j < board.length && k >= 0 && k < board.length) {
+                    if (board[j][k] == STATE_ALIVE) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public boolean isEmpty() {
+        for (int[] ints : board) {
+            for (int anInt : ints) {
+                if (anInt == STATE_ALIVE) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

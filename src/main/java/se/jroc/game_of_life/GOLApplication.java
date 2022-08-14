@@ -1,66 +1,53 @@
 package se.jroc.game_of_life;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class GOLApplication extends Application {
 
+    private static final int CELL_SIZE = 20;
+    private static final int BOARD_SIZE = 640;
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Game of Life");
         Group root = new Group();
-        Canvas canvas = new Canvas(640, 640);
+        Canvas canvas = new Canvas(BOARD_SIZE, BOARD_SIZE);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawShapes(gc);
         root.getChildren().add(canvas);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-    }
+        gc.setFill(Color.BLACK);
 
-    private void drawShapes(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
-        gc.setLineWidth(5);
-        gc.strokeLine(40, 10, 10, 40);
-        gc.fillOval(10, 60, 30, 30);
-        gc.strokeOval(60, 60, 30, 30);
-        gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-        gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-        gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-        gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-        gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-        gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-        gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-        gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-        gc.fillPolygon(new double[]{10, 40, 10, 40},
-                new double[]{210, 210, 240, 240}, 4);
-        gc.strokePolygon(new double[]{60, 90, 60, 90},
-                new double[]{210, 210, 240, 240}, 4);
-        gc.strokePolyline(new double[]{110, 140, 110, 140},
-                new double[]{210, 210, 240, 240}, 4);
-    }
 
+        //draw a grid
+        for (int i = 0; i < BOARD_SIZE; i += CELL_SIZE) {
+            gc.strokeLine(i, 0, i, BOARD_SIZE);
+            gc.strokeLine(0, i, BOARD_SIZE, i);
+        }
+        
+        // detect mouseclick inside grid
+        canvas.setOnMouseClicked(event -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            if (x > 0 && x < BOARD_SIZE && y > 0 && y < BOARD_SIZE) {
+                int xStart = x / CELL_SIZE;
+                int yStart = y / CELL_SIZE;
+                gc.fillRect(xStart * CELL_SIZE, yStart * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            }
+        });
+
+        GOLBoard golBoard = new GOLBoard(BOARD_SIZE / CELL_SIZE);
+
+
+    }
+    
     public static void main(String[] args) {
         launch();
     }
-
-//    @Override
-//    public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(GOLApplication.class.getResource("main-view.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 640, 640);
-//        stage.setTitle("Game Of Life");
-//        stage.setScene(scene);
-//        stage.show();
-//    }
-
-
 }

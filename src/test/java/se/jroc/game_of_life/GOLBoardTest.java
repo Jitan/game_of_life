@@ -12,6 +12,12 @@ class GOLBoardTest {
     }
 
     @Test
+    void itShouldCheckThatANewBoardIsEmpty() {
+        GOLBoard golBoard = new GOLBoard(30);
+        assertTrue(golBoard.isEmpty());
+    }
+
+    @Test
     void itShouldSetAllFieldsToDeadAtStart() {
         GOLBoard golBoard = new GOLBoard(30);
         for (int i = 0; i < golBoard.getSize(); i++) {
@@ -20,7 +26,16 @@ class GOLBoardTest {
             }
         }
     }
+    @Test
+    void itShouldRandomizeTheGameBoard() {
+        GOLBoard golBoard = new GOLBoard(30);
+        golBoard.randomize();
+    }
 
-
-
+    @Test
+    void itShouldCountTheNeighbourCells() {
+        GOLBoard golBoard = new GOLBoard(30);
+        golBoard.randomize();
+        assertEquals(golBoard.countNeighbourCells(0, 0), 3);
+    }
 }
