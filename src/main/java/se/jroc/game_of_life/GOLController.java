@@ -9,6 +9,10 @@ public class GOLController {
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+        welcomeText.setText("Game of Life");
+    }
+
+    public void createBoard() {
+        GOLBoard golBoard = new GOLBoard(30);
     }
 }
