@@ -20,8 +20,8 @@ public class GOLBoard {
         return board.length;
     }
 
-    public int getCellState(int i, int j) {
-        return board[i][j];
+    public int getCellState(int x, int y) {
+        return board[x][y];
     }
 
     public void randomize() {
@@ -53,5 +53,20 @@ public class GOLBoard {
             }
         }
         return true;
+    }
+
+    public void setAlive(int x, int y) {
+        board[x][y] = STATE_ALIVE;
+    }
+
+    public boolean isAlive(int x, int y) {
+        return board[x][y] == STATE_ALIVE;
+    }
+
+    public void setDead(int x, int y) {
+        board[x][y] = STATE_DEAD;
+    }
+    public boolean isDead(int x, int y) {
+        return board[x][y] == STATE_DEAD;
     }
 }

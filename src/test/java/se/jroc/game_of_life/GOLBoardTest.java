@@ -18,24 +18,17 @@ class GOLBoardTest {
     }
 
     @Test
-    void itShouldSetAllFieldsToDeadAtStart() {
+    void itShouldSetCellToAlive() {
         GOLBoard golBoard = new GOLBoard(30);
-        for (int i = 0; i < golBoard.getSize(); i++) {
-            for (int j = 0; j < golBoard.getSize(); j++) {
-                assertEquals(golBoard.getCellState(i, j), GOLBoard.STATE_DEAD);
-            }
-        }
-    }
-    @Test
-    void itShouldRandomizeTheGameBoard() {
-        GOLBoard golBoard = new GOLBoard(30);
-        golBoard.randomize();
+        golBoard.setAlive(1, 1);
+        assertTrue(golBoard.isAlive(1, 1));
     }
 
     @Test
-    void itShouldCountTheNeighbourCells() {
+    void itShouldSetCellToDead() {
         GOLBoard golBoard = new GOLBoard(30);
-        golBoard.randomize();
-        assertEquals(golBoard.countNeighbourCells(0, 0), 3);
+        golBoard.setDead(1, 1);
+        assertTrue(golBoard.isDead(1, 1));
     }
+
 }
