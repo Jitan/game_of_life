@@ -30,53 +30,33 @@ public class GOLGUI {
         this.CELL_SIZE = cellSize;
         this.canvas = new Canvas(CANVAS_SIZE, CANVAS_SIZE);
         this.gc = canvas.getGraphicsContext2D();
-        setUpCanvas(primaryStage);
+        setUpStage(primaryStage);
         drawGrid();
     }
 
-    private void setUpCanvas(Stage primaryStage) {
+    private void setUpStage(Stage primaryStage) {
+        gc.setFill(Color.BLACK);
         primaryStage.setTitle("Game of Life");
         primaryStage.setResizable(false);
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(20);
-
         Button playButton = new Button("Play");
         Button stopButton = new Button("Stop");
 
+        VBox vbox = new VBox();
+        vbox.setSpacing(20);
         vbox.getChildren().add(canvas);
-
         HBox hbox = new HBox();
         hbox.getChildren().add(playButton);
         hbox.getChildren().add(stopButton);
-
-        playButton.setOnAction(actionEvent -> {
-            guiCallbackHandler.playButton();
-        });
-        stopButton.setOnAction(actionEvent -> {
-            guiCallbackHandler.stopButton();
-        });
-
         vbox.getChildren().add(hbox);
-
         Scene scene = new Scene(vbox);
 
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        gc.setFill(Color.BLACK);
-
-        canvas.setOnMouseClicked(event -> {
-            guiCallbackHandler.locationClicked(getX(event), getY(event));
-            int x = getX(event);
-            int y = getY(event);
-
-            if (board.isAlive(x, y)) {
-                setCellDead(x, y);
-            } else {
-                setCellAlive(x, y);
-            }
-        });
+        playButton.setOnAction(actionEvent -> guiCallbackHandler.playButton());
+        stopButton.setOnAction(actionEvent -> guiCallbackHandler.stopButton());
+        canvas.setOnMouseClicked(
+                event -> guiCallbackHandler.locationClicked(getX(event), getY(event)));
     }
 
     public void setNewBoard(GOLBoard board) {

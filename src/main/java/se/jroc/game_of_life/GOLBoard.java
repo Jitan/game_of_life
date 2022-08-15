@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class GOLBoard {
     static final int STATE_ALIVE = 1;
     static final int STATE_DEAD = 0;
-    private int[][] board;
+    private final int[][] board;
 
     public GOLBoard(int size) {
         board = new int[size][size];
@@ -35,7 +35,6 @@ public class GOLBoard {
         }
     }
 
-
     public int getSize() {
         return board.length;
     }
@@ -60,7 +59,7 @@ public class GOLBoard {
         }
     }
 
-    public int countLiveNeighbourCells(int x, int y) {
+    private int countLiveNeighbourCells(int x, int y) {
         int count = 0;
 
         for (int xModifier = -1; xModifier <= 1; xModifier++) {
@@ -117,8 +116,5 @@ public class GOLBoard {
 
     private boolean outsideTheBoard(int x, int y) {
         return x < 0 || x > maxIndex() || y < 0 || y > maxIndex();
-    }
-
-    public void update() {
     }
 }

@@ -19,12 +19,29 @@ public class GOLApplication extends Application {
     public void start(Stage primaryStage) {
         board = new GOLBoard(BOARD_SIZE);
         board.randomize();
+        GUICallbackHandler guiCallbackHandler = createCallbacks();
+        gui = new GOLGUI(primaryStage,
+                guiCallbackHandler,
+                CELL_SIZE,
+                board);
+        startTicks();
+        System.out.println("Board Size: " + board.getSize());
+        System.out.println("Cell Size: " + CELL_SIZE);
+    }
 
-        GUICallbackHandler guiCallbackHandler = new GUICallbackHandler() {
+    private GUICallbackHandler createCallbacks() {
+        return new GUICallbackHandler() {
             @Override
             public void locationClicked(int x, int y) {
                 System.out.println("Click @ X:" + x + " / Y:" + y);
+                if (board.isAlive(x, y)) {
+                    board.setDead(x, y);
+                } else {
+                    board.setAlive(x, y);
+                }
+                update();
             }
+
             @Override
             public void playButton() {
                 startTicks();
@@ -35,15 +52,6 @@ public class GOLApplication extends Application {
                 stopTicks();
             }
         };
-
-
-        gui = new GOLGUI(primaryStage,
-                guiCallbackHandler,
-                CELL_SIZE,
-                board);
-        startTicks();
-        System.out.println("Board Size: " + board.getSize());
-        System.out.println("Cell Size: " + CELL_SIZE);
     }
 
     private void stopTicks() {
@@ -57,7 +65,7 @@ public class GOLApplication extends Application {
             public void run() {
                 update();
             }
-        }, 1000, 1000);
+        }, 500, 800);
     }
 
     private void update() {
