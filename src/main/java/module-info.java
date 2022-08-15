@@ -7,4 +7,6 @@ module se.jroc.game_of_life {
 
     opens se.jroc.game_of_life to javafx.fxml;
     exports se.jroc.game_of_life;
+    exports se.jroc.game_of_life.gui;
+    opens se.jroc.game_of_life.gui to javafx.fxml;
 }

@@ -1,7 +1,5 @@
-package se.jroc.game_of_life;
+package se.jroc.game_of_life.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,34 +9,34 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import se.jroc.game_of_life.GOLBoard;
 
 public class GOLGUI {
 
     private final int CANVAS_SIZE;
     private final int CELL_SIZE;
-    private GraphicsContext gc;
-    private final EventHandler<ActionEvent> playHandler;
-    private final EventHandler<ActionEvent> stopHandler;
+    private final Canvas canvas;
+    private final GraphicsContext gc;
+    private final GUICallbackHandler guiCallbackHandler;
     private GOLBoard board;
 
-    public GOLGUI(Stage primaryStage, EventHandler<ActionEvent> playHandler,
-                  EventHandler<ActionEvent> stopHandler, int cellSize, GOLBoard board) {
-        this.playHandler = playHandler;
-        this.stopHandler = stopHandler;
+    public GOLGUI(Stage primaryStage,
+                  GUICallbackHandler guiCallbackHandler,
+                  int cellSize,
+                  GOLBoard board) {
+        this.guiCallbackHandler = guiCallbackHandler;
         this.board = board;
         this.CANVAS_SIZE = cellSize * board.getSize();
         this.CELL_SIZE = cellSize;
-
-        Canvas canvas = setUpCanvas(primaryStage);
-        setUpMouseListener(canvas);
+        this.canvas = new Canvas(CANVAS_SIZE, CANVAS_SIZE);
+        this.gc = canvas.getGraphicsContext2D();
+        setUpCanvas(primaryStage);
         drawGrid();
     }
 
-    private Canvas setUpCanvas(Stage primaryStage) {
+    private void setUpCanvas(Stage primaryStage) {
         primaryStage.setTitle("Game of Life");
         primaryStage.setResizable(false);
-        Canvas canvas = new Canvas(CANVAS_SIZE, CANVAS_SIZE);
-        gc = canvas.getGraphicsContext2D();
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
@@ -52,8 +50,12 @@ public class GOLGUI {
         hbox.getChildren().add(playButton);
         hbox.getChildren().add(stopButton);
 
-        playButton.setOnAction(playHandler);
-        stopButton.setOnAction(stopHandler);
+        playButton.setOnAction(actionEvent -> {
+            guiCallbackHandler.playButton();
+        });
+        stopButton.setOnAction(actionEvent -> {
+            guiCallbackHandler.stopButton();
+        });
 
         vbox.getChildren().add(hbox);
 
@@ -64,16 +66,10 @@ public class GOLGUI {
 
         gc.setFill(Color.BLACK);
 
-        return canvas;
-    }
-
-
-
-    private void setUpMouseListener(Canvas canvas) {
         canvas.setOnMouseClicked(event -> {
+            guiCallbackHandler.locationClicked(getX(event), getY(event));
             int x = getX(event);
             int y = getY(event);
-            System.out.println("Click @ x " + x + "  y " + y);
 
             if (board.isAlive(x, y)) {
                 setCellDead(x, y);
@@ -83,7 +79,12 @@ public class GOLGUI {
         });
     }
 
-    public void drawBoard(GOLBoard board) {
+    public void setNewBoard(GOLBoard board) {
+        this.board = board;
+        drawBoard();
+    }
+
+    protected void drawBoard() {
         for (int x = 0; x < board.getSize(); x++) {
             for (int y = 0; y < board.getSize(); y++) {
                 if (board.isAlive(x, y)) {
