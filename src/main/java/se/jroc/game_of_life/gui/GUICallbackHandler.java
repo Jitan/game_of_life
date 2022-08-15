@@ -5,7 +5,6 @@ public abstract class GUICallbackHandler implements GUICallback {
 
     public abstract void playButtonClicked();
 
-
     public abstract void stopButtonClicked();
 
     public abstract void randomizeButtonClicked();

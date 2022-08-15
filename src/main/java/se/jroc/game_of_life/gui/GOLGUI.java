@@ -83,18 +83,13 @@ public class GOLGUI {
     private void setCellAlive(int x, int y) {
         board.setAlive(x, y);
         this.gc.setFill(Color.BLACK);
-        updateGUI(x, y);
+        drawRectangle(x, y);
     }
 
     private void setCellDead(int x, int y) {
         board.setDead(x, y);
         gc.setFill(Color.WHITE);
-        updateGUI(x, y);
-    }
-
-    private void updateGUI(int x, int y) {
         drawRectangle(x, y);
-        drawGrid();
     }
 
     private void drawRectangle(int xStart, int yStart) {
