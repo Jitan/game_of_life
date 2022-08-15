@@ -21,7 +21,6 @@ public class GOLGUI {
         CELL_SIZE = cellSize;
 
         Canvas canvas = setUpCanvas(primaryStage);
-        gc = canvas.getGraphicsContext2D();
         setUpMouseListener(canvas);
         drawGrid();
     }
@@ -43,7 +42,7 @@ public class GOLGUI {
         canvas.setOnMouseClicked(event -> {
             int x = getX(event);
             int y = getY(event);
-            System.out.println("Mouse click @ x=" + x + "  y=" + y);
+            System.out.println("Click @ x " + x + "  y " + y);
 
             if (board.isAlive(x, y)) {
                 setCellDead(x, y);

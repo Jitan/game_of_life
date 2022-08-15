@@ -12,6 +12,23 @@ public class GOLBoard {
         setAllCellsToState(STATE_DEAD);
     }
 
+    public GOLBoard tick() {
+        GOLBoard newBoard = new GOLBoard(board.length);
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board.length; y++) {
+                int aliveNeighbours = countLiveNeighbourCells(x, y);
+                if (isAlive(x, y) && (aliveNeighbours == 2 || aliveNeighbours == 3)) {
+                    newBoard.setAlive(x, y);
+                } else if(isDead(x,y) && aliveNeighbours == 3) {
+                    newBoard.setAlive(x, y);
+                } else {
+                    newBoard.setDead(x, y);
+                }
+            }
+        }
+        return newBoard;
+    }
+
     private void setAllCellsToState(int state) {
         for (int[] ints : board) {
             Arrays.fill(ints, state);
@@ -22,6 +39,7 @@ public class GOLBoard {
     public int getSize() {
         return board.length;
     }
+
     private int maxIndex() {
         return board.length - 1;
     }
@@ -44,7 +62,7 @@ public class GOLBoard {
 
     public int countLiveNeighbourCells(int x, int y) {
         int count = 0;
-        
+
         for (int xModifier = -1; xModifier <= 1; xModifier++) {
             for (int yModifier = -1; yModifier <= 1; yModifier++) {
                 if (xModifier == 0 && yModifier == 0) {
@@ -100,6 +118,7 @@ public class GOLBoard {
     private boolean outsideTheBoard(int x, int y) {
         return x < 0 || x > maxIndex() || y < 0 || y > maxIndex();
     }
+
     public void update() {
     }
 }
