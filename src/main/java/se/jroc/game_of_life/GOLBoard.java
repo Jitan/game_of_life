@@ -22,25 +22,36 @@ public class GOLBoard {
     public int getSize() {
         return board.length;
     }
+    private int maxIndex() {
+        return board.length - 1;
+    }
 
     public int getCellState(int x, int y) {
         return board[x][y];
     }
 
     public void randomize() {
-        for (int[] ints : board) {
-            Arrays.fill(ints, (int) (Math.random() * 2));
+        for (int x = 0; x < getSize(); x++) {
+            for (int y = 0; y < getSize(); y++) {
+                if (Math.random() > 0.5) {
+                    setAlive(x, y);
+                } else {
+                    setDead(x, y);
+                }
+            }
         }
     }
 
-    public int countNeighbourCells(int i, int i1) {
+    public int countLiveNeighbourCells(int x, int y) {
         int count = 0;
-        for (int j = i - 1; j <= i + 1; j++) {
-            for (int k = i1 - 1; k <= i1 + 1; k++) {
-                if (j >= 0 && j < board.length && k >= 0 && k < board.length) {
-                    if (board[j][k] == STATE_ALIVE) {
-                        count++;
-                    }
+        
+        for (int xModifier = -1; xModifier <= 1; xModifier++) {
+            for (int yModifier = -1; yModifier <= 1; yModifier++) {
+                if (xModifier == 0 && yModifier == 0) {
+                    continue;
+                }
+                if (isAlive(x + xModifier, y + yModifier)) {
+                    count++;
                 }
             }
         }
@@ -58,21 +69,37 @@ public class GOLBoard {
         return true;
     }
 
-    public void setAlive(int x, int y) {
+    public void setAlive(int x, int y) throws IllegalArgumentException {
+        if (outsideTheBoard(x, y)) {
+            throw new IllegalArgumentException("x and y must be between 0 and " + maxIndex());
+        }
         board[x][y] = STATE_ALIVE;
     }
 
     public boolean isAlive(int x, int y) {
+        if (outsideTheBoard(x, y)) {
+            return false;
+        }
         return board[x][y] == STATE_ALIVE;
     }
 
     public void setDead(int x, int y) {
+        if (outsideTheBoard(x, y)) {
+            throw new IllegalArgumentException("x and y must be between 0 and " + maxIndex());
+        }
         board[x][y] = STATE_DEAD;
     }
+
     public boolean isDead(int x, int y) {
+        if (outsideTheBoard(x, y)) {
+            return false;
+        }
         return board[x][y] == STATE_DEAD;
     }
 
+    private boolean outsideTheBoard(int x, int y) {
+        return x < 0 || x > maxIndex() || y < 0 || y > maxIndex();
+    }
     public void update() {
     }
 }

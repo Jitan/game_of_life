@@ -15,7 +15,7 @@ public class GOLGUI {
     private GraphicsContext gc;
     private GOLBoard board;
 
-    public GOLGUI(GOLBoard board, Stage primaryStage, int cellSize) {
+    public GOLGUI(Stage primaryStage, int cellSize, GOLBoard board) {
         this.board = board;
         CANVAS_SIZE = cellSize * board.getSize();
         CELL_SIZE = cellSize;
@@ -43,7 +43,7 @@ public class GOLGUI {
         canvas.setOnMouseClicked(event -> {
             int x = getX(event);
             int y = getY(event);
-            System.out.println(x + " " + y);
+            System.out.println("Mouse click @ x=" + x + "  y=" + y);
 
             if (board.isAlive(x, y)) {
                 setCellDead(x, y);
@@ -53,14 +53,38 @@ public class GOLGUI {
         });
     }
 
+    public void drawBoard(GOLBoard board) {
+        for (int x = 0; x < board.getSize(); x++) {
+            for (int y = 0; y < board.getSize(); y++) {
+                if (board.isAlive(x, y)) {
+                    setCellAlive(x, y);
+                } else {
+                    setCellDead(x, y);
+                }
+            }
+        }
+        drawGrid();
+    }
+
+    private void setCellAlive(int x, int y) {
+        board.setAlive(x, y);
+        this.gc.setFill(Color.BLACK);
+        updateGUI(x, y);
+    }
+
+    private void setCellDead(int x, int y) {
+        board.setDead(x, y);
+        gc.setFill(Color.WHITE);
+        updateGUI(x, y);
+    }
+
     private void updateGUI(int x, int y) {
         drawRectangle(x, y);
         drawGrid();
     }
 
-    public void drawBoard(GOLBoard board) {
-        board.getSize();
-        drawGrid();
+    private void drawRectangle(int xStart, int yStart) {
+        this.gc.fillRect(xStart * CELL_SIZE, yStart * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     private void drawGrid() {
@@ -68,20 +92,6 @@ public class GOLGUI {
             gc.strokeLine(i, 0, i, CANVAS_SIZE);
             gc.strokeLine(0, i, CANVAS_SIZE, i);
         }
-    }
-
-    private void setCellDead(int x, int y) {
-        System.out.println("Cell is dead");
-        board.setDead(x, y);
-        gc.setFill(Color.WHITE);
-        updateGUI(x, y);
-    }
-
-    private void setCellAlive(int x, int y) {
-        System.out.println("Cell is alive");
-        board.setAlive(x, y);
-        this.gc.setFill(Color.BLACK);
-        updateGUI(x, y);
     }
 
     private int getY(MouseEvent event) {
@@ -92,9 +102,5 @@ public class GOLGUI {
     private int getX(MouseEvent event) {
         int x = (int) event.getX();
         return x / CELL_SIZE;
-    }
-
-    private void drawRectangle(int xStart, int yStart) {
-        this.gc.fillRect(xStart * CELL_SIZE, yStart * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 }
