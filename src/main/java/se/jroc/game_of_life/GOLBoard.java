@@ -9,12 +9,15 @@ public class GOLBoard {
 
     public GOLBoard(int size) {
         board = new int[size][size];
-        
-        // loop through board and set all cells to dead
+        setAllCellsToState(STATE_DEAD);
+    }
+
+    private void setAllCellsToState(int state) {
         for (int[] ints : board) {
-            Arrays.fill(ints, STATE_DEAD);
+            Arrays.fill(ints, state);
         }
     }
+
 
     public int getSize() {
         return board.length;
@@ -68,5 +71,8 @@ public class GOLBoard {
     }
     public boolean isDead(int x, int y) {
         return board[x][y] == STATE_DEAD;
+    }
+
+    public void update() {
     }
 }
