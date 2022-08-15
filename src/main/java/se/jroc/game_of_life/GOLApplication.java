@@ -43,13 +43,19 @@ public class GOLApplication extends Application {
             }
 
             @Override
-            public void playButton() {
+            public void playButtonClicked() {
                 startTicks();
             }
 
             @Override
-            public void stopButton() {
+            public void stopButtonClicked() {
                 stopTicks();
+            }
+
+            @Override
+            public void randomizeButtonClicked() {
+                board.randomize();
+                update();
             }
         };
     }

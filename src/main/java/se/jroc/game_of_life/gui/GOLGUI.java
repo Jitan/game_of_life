@@ -40,6 +40,7 @@ public class GOLGUI {
         primaryStage.setResizable(false);
         Button playButton = new Button("Play");
         Button stopButton = new Button("Stop");
+        Button randomizeButton = new Button("Randomize");
 
         VBox vbox = new VBox();
         vbox.setSpacing(20);
@@ -47,14 +48,16 @@ public class GOLGUI {
         HBox hbox = new HBox();
         hbox.getChildren().add(playButton);
         hbox.getChildren().add(stopButton);
+        hbox.getChildren().add(randomizeButton);
         vbox.getChildren().add(hbox);
         Scene scene = new Scene(vbox);
 
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        playButton.setOnAction(actionEvent -> guiCallbackHandler.playButton());
-        stopButton.setOnAction(actionEvent -> guiCallbackHandler.stopButton());
+        playButton.setOnAction(actionEvent -> guiCallbackHandler.playButtonClicked());
+        stopButton.setOnAction(actionEvent -> guiCallbackHandler.stopButtonClicked());
+        randomizeButton.setOnAction(actionEvent -> guiCallbackHandler.randomizeButtonClicked());
         canvas.setOnMouseClicked(
                 event -> guiCallbackHandler.locationClicked(getX(event), getY(event)));
     }

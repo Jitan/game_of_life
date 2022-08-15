@@ -1,17 +1,12 @@
 package se.jroc.game_of_life.gui;
 
-public class GUICallbackHandler implements GUICallback {
-    @Override
-    public void locationClicked(int x, int y) {
-    }
+public abstract class GUICallbackHandler implements GUICallback {
+    public abstract void locationClicked(int x, int y);
 
-    @Override
-    public void playButton() {
-    }
-
-    @Override
-    public void stopButton() {
-    }
+    public abstract void playButtonClicked();
 
 
+    public abstract void stopButtonClicked();
+
+    public abstract void randomizeButtonClicked();
 }
