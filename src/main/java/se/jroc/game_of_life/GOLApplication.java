@@ -30,6 +30,25 @@ public class GOLApplication extends Application {
         System.out.println("Cell Size: " + CELL_SIZE);
     }
 
+    private void startTicks() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 500, TICK_PERIOD);
+    }
+
+    private void stopTicks() {
+        timer.cancel();
+    }
+
+    private void update() {
+        board = board.tick();
+        gui.setNewBoard(board);
+    }
+
     private GUICallbackHandler createCallbacks() {
         return new GUICallbackHandler() {
             @Override
@@ -59,25 +78,6 @@ public class GOLApplication extends Application {
                 update();
             }
         };
-    }
-
-    private void stopTicks() {
-        timer.cancel();
-    }
-
-    private void startTicks() {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                update();
-            }
-        }, 500, TICK_PERIOD);
-    }
-
-    private void update() {
-        board = board.tick();
-        gui.setNewBoard(board);
     }
     public static void main(String[] args) {
         launch();
