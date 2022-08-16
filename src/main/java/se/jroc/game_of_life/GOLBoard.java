@@ -59,7 +59,7 @@ public class GOLBoard {
         }
     }
 
-    private int countLiveNeighbourCells(int x, int y) {
+    protected int countLiveNeighbourCells(int x, int y) {
         int count = 0;
 
         for (int xModifier = -1; xModifier <= 1; xModifier++) {
