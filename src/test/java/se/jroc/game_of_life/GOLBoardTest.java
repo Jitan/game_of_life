@@ -34,8 +34,9 @@ class GOLBoardTest {
     }
 
     @Test
-    void itShouldRandomizeTheBoard() {
+    void itShouldCreateAtLeastOneAliveCell() {
         GOLBoard golBoard = new GOLBoard(30);
+        assertTrue(golBoard.isEmpty());
         golBoard.randomize();
         assertFalse(golBoard.isEmpty());
     }
