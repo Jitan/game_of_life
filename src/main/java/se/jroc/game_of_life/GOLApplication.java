@@ -16,6 +16,9 @@ public class GOLApplication extends Application {
     private GOLGUI gui;
     private Timer timer;
 
+    public static void main(String[] args) {
+        launch();
+    }
     @Override
     public void start(Stage primaryStage) {
         board = new GOLBoard(BOARD_SIZE);
@@ -26,8 +29,8 @@ public class GOLApplication extends Application {
                 CELL_SIZE,
                 board);
         startTicks();
-        System.out.println("Board Size: " + board.getSize());
-        System.out.println("Cell Size: " + CELL_SIZE);
+//        System.out.println("Board Size: " + board.getSize());
+//        System.out.println("Cell Size: " + CELL_SIZE);
     }
 
     private void startTicks() {
@@ -53,7 +56,7 @@ public class GOLApplication extends Application {
         return new GUICallbackHandler() {
             @Override
             public void locationClicked(int x, int y) {
-                System.out.println("Click @ X:" + x + " / Y:" + y);
+//                System.out.println("Click @ X:" + x + " / Y:" + y);
                 if (board.isAlive(x, y)) {
                     board.setDead(x, y);
                 } else {
@@ -78,8 +81,5 @@ public class GOLApplication extends Application {
                 update();
             }
         };
-    }
-    public static void main(String[] args) {
-        launch();
     }
 }

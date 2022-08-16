@@ -41,38 +41,38 @@ public class GOLBoard {
         }
     }
 
-    public void setAlive(int x, int y) throws IllegalArgumentException {
-        if (outsideTheBoard(x, y)) {
-            throw new IllegalArgumentException("x and y must be between 0 and " + maxIndex());
+    public void setAlive(int x, int y) {
+        if (insideTheBoard(x, y)) {
+            board[x][y] = STATE_ALIVE;
         }
-        board[x][y] = STATE_ALIVE;
     }
 
     public boolean isAlive(int x, int y) {
-        if (outsideTheBoard(x, y)) {
+        if (insideTheBoard(x, y)) {
+            return board[x][y] == STATE_ALIVE;
+        } else {
             return false;
         }
-        return board[x][y] == STATE_ALIVE;
     }
 
-    public void setDead(int x, int y) {
-        if (outsideTheBoard(x, y)) {
-            throw new IllegalArgumentException("x and y must be between 0 and " + maxIndex());
+    public void setDead(int x, int y){
+        if (insideTheBoard(x, y)) {
+            board[x][y] = STATE_DEAD;
         }
-        board[x][y] = STATE_DEAD;
     }
 
     public boolean isDead(int x, int y) {
-        if (outsideTheBoard(x, y)) {
-            return false;
+        if (insideTheBoard(x, y)) {
+            return board[x][y] == STATE_DEAD;
+        } else {
+            return true;
         }
-        return board[x][y] == STATE_DEAD;
     }
 
     public boolean isEmpty() {
-        for (int[] ints : board) {
-            for (int anInt : ints) {
-                if (anInt == STATE_ALIVE) {
+        for (int x = 0; x < getSize(); x++) {
+            for (int y = 0; y < getSize(); y++) {
+                if (isAlive(x, y)) {
                     return false;
                 }
             }
@@ -110,7 +110,7 @@ public class GOLBoard {
         return board.length - 1;
     }
 
-    private boolean outsideTheBoard(int x, int y) {
-        return x < 0 || x > maxIndex() || y < 0 || y > maxIndex();
+    private boolean insideTheBoard(int x, int y) {
+        return x >= 0 && x <= maxIndex() && y >= 0 && y <= maxIndex();
     }
 }

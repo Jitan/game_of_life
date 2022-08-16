@@ -22,6 +22,7 @@ class GOLBoardTest {
         GOLBoard golBoard = new GOLBoard(30);
         golBoard.setAlive(1, 1);
         assertTrue(golBoard.isAlive(1, 1));
+        assertFalse(golBoard.isDead(1, 1));
     }
 
     @Test
@@ -29,6 +30,7 @@ class GOLBoardTest {
         GOLBoard golBoard = new GOLBoard(30);
         golBoard.setDead(1, 1);
         assertTrue(golBoard.isDead(1, 1));
+        assertFalse(golBoard.isAlive(1, 1));
     }
 
     @Test
