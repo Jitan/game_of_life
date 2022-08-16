@@ -29,24 +29,6 @@ public class GOLBoard {
         return newBoard;
     }
 
-    private void setAllCellsToState(int state) {
-        for (int[] ints : board) {
-            Arrays.fill(ints, state);
-        }
-    }
-
-    public int getSize() {
-        return board.length;
-    }
-
-    private int maxIndex() {
-        return board.length - 1;
-    }
-
-    public int getCellState(int x, int y) {
-        return board[x][y];
-    }
-
     public void randomize() {
         for (int x = 0; x < getSize(); x++) {
             for (int y = 0; y < getSize(); y++) {
@@ -57,33 +39,6 @@ public class GOLBoard {
                 }
             }
         }
-    }
-
-    protected int countLiveNeighbourCells(int x, int y) {
-        int count = 0;
-
-        for (int xModifier = -1; xModifier <= 1; xModifier++) {
-            for (int yModifier = -1; yModifier <= 1; yModifier++) {
-                if (xModifier == 0 && yModifier == 0) {
-                    continue;
-                }
-                if (isAlive(x + xModifier, y + yModifier)) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    public boolean isEmpty() {
-        for (int[] ints : board) {
-            for (int anInt : ints) {
-                if (anInt == STATE_ALIVE) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public void setAlive(int x, int y) throws IllegalArgumentException {
@@ -112,6 +67,47 @@ public class GOLBoard {
             return false;
         }
         return board[x][y] == STATE_DEAD;
+    }
+
+    public boolean isEmpty() {
+        for (int[] ints : board) {
+            for (int anInt : ints) {
+                if (anInt == STATE_ALIVE) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int getSize() {
+        return board.length;
+    }
+
+    private int countLiveNeighbourCells(int x, int y) {
+        int count = 0;
+
+        for (int xModifier = -1; xModifier <= 1; xModifier++) {
+            for (int yModifier = -1; yModifier <= 1; yModifier++) {
+                if (xModifier == 0 && yModifier == 0) {
+                    continue;
+                }
+                if (isAlive(x + xModifier, y + yModifier)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void setAllCellsToState(int state) {
+        for (int[] ints : board) {
+            Arrays.fill(ints, state);
+        }
+    }
+
+    private int maxIndex() {
+        return board.length - 1;
     }
 
     private boolean outsideTheBoard(int x, int y) {
