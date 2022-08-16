@@ -32,6 +32,33 @@ class GOLBoardTest {
     }
 
     @Test
+    void itShouldRandomizeTheBoard() {
+        GOLBoard golBoard = new GOLBoard(30);
+        golBoard.randomize();
+        assertFalse(golBoard.isEmpty());
+    }
+
+    @Test
+    void itShouldReturnANewBoardWithCorrectlyUpdatedCells() {
+        GOLBoard golBoard = new GOLBoard(30);
+        golBoard.setAlive(0, 1);
+        golBoard.setAlive(1, 1);
+        golBoard.setAlive(2, 1);
+        GOLBoard newBoard = golBoard.tick();
+        assertTrue(newBoard.isAlive(1, 0));
+        assertTrue(newBoard.isAlive(1, 1));
+        assertTrue(newBoard.isAlive(1, 2));
+        newBoard = newBoard.tick();
+        assertTrue(newBoard.isAlive(0, 1));
+        assertTrue(newBoard.isAlive(1, 1));
+        assertTrue(newBoard.isAlive(2, 1));
+        newBoard = newBoard.tick();
+        assertTrue(newBoard.isAlive(1, 0));
+        assertTrue(newBoard.isAlive(1, 1));
+        assertTrue(newBoard.isAlive(1, 2));
+    }
+
+    @Test
     void itShouldCountLiveNeighbourCellsWhenThereIsNoNeighbour() {
         GOLBoard golBoard = new GOLBoard(30);
         assertEquals(golBoard.countLiveNeighbourCells(1, 1), 0);
@@ -120,5 +147,4 @@ class GOLBoardTest {
         golBoard.setAlive(2, 2);
         assertEquals(golBoard.countLiveNeighbourCells(1, 1), 8);
     }
-
 }
