@@ -17,14 +17,14 @@ public class GOLGUI {
     private final int CELL_SIZE;
     private final Canvas canvas;
     private final GraphicsContext graphicsContext;
-    private final GUICallbackHandler guiCallbackHandler;
+    private final GUICallback guiCallback;
     private GOLBoard board;
 
     public GOLGUI(Stage primaryStage,
-                  GUICallbackHandler guiCallbackHandler,
+                  GUICallback guiCallback,
                   int cellSize,
                   GOLBoard board) {
-        this.guiCallbackHandler = guiCallbackHandler;
+        this.guiCallback = guiCallback;
         this.board = board;
         this.CANVAS_SIZE = cellSize * board.getSize();
         this.CELL_SIZE = cellSize;
@@ -55,11 +55,11 @@ public class GOLGUI {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        playButton.setOnAction(actionEvent -> guiCallbackHandler.playButtonClicked());
-        stopButton.setOnAction(actionEvent -> guiCallbackHandler.stopButtonClicked());
-        randomizeButton.setOnAction(actionEvent -> guiCallbackHandler.randomizeButtonClicked());
+        playButton.setOnAction(actionEvent -> guiCallback.playButtonClicked());
+        stopButton.setOnAction(actionEvent -> guiCallback.stopButtonClicked());
+        randomizeButton.setOnAction(actionEvent -> guiCallback.randomizeButtonClicked());
         canvas.setOnMouseClicked(
-                event -> guiCallbackHandler.locationClicked(getX(event), getY(event)));
+                event -> guiCallback.locationClicked(getX(event), getY(event)));
     }
 
     public void setNewBoard(GOLBoard board) {

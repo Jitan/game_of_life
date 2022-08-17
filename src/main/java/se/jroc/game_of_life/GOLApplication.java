@@ -3,7 +3,7 @@ package se.jroc.game_of_life;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import se.jroc.game_of_life.gui.GOLGUI;
-import se.jroc.game_of_life.gui.GUICallbackHandler;
+import se.jroc.game_of_life.gui.GUICallback;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,7 +23,7 @@ public class GOLApplication extends Application {
     public void start(Stage primaryStage) {
         board = new GOLBoard(BOARD_SIZE);
         board.randomize();
-        GUICallbackHandler guiCallbackHandler = createCallbacks();
+        GUICallback guiCallbackHandler = createCallbacks();
         gui = new GOLGUI(primaryStage,
                 guiCallbackHandler,
                 CELL_SIZE,
@@ -52,8 +52,8 @@ public class GOLApplication extends Application {
         gui.setNewBoard(board);
     }
 
-    private GUICallbackHandler createCallbacks() {
-        return new GUICallbackHandler() {
+    private GUICallback createCallbacks() {
+        return new GUICallback() {
             @Override
             public void locationClicked(int x, int y) {
 //                System.out.println("Click @ X:" + x + " / Y:" + y);
