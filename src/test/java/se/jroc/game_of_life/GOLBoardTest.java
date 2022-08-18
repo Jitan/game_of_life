@@ -47,15 +47,15 @@ class GOLBoardTest {
         golBoard.setAlive(0, 1);
         golBoard.setAlive(1, 1);
         golBoard.setAlive(2, 1);
-        GOLBoard newBoard = golBoard.tick();
+        GOLBoard newBoard = golBoard.applyEvolutionRulesAndGenerateNewBoard();
         assertTrue(newBoard.isAlive(1, 0));
         assertTrue(newBoard.isAlive(1, 1));
         assertTrue(newBoard.isAlive(1, 2));
-        newBoard = newBoard.tick();
+        newBoard = newBoard.applyEvolutionRulesAndGenerateNewBoard();
         assertTrue(newBoard.isAlive(0, 1));
         assertTrue(newBoard.isAlive(1, 1));
         assertTrue(newBoard.isAlive(2, 1));
-        newBoard = newBoard.tick();
+        newBoard = newBoard.applyEvolutionRulesAndGenerateNewBoard();
         assertTrue(newBoard.isAlive(1, 0));
         assertTrue(newBoard.isAlive(1, 1));
         assertTrue(newBoard.isAlive(1, 2));

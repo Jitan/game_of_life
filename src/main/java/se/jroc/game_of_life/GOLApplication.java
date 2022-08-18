@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class GOLApplication extends Application {
     private final int CELL_SIZE = 15;
     private final int BOARD_SIZE = 40;
-    private final int TICK_PERIOD = 800;
+    private final int TICK_PERIOD = 80;
     private GOLBoard board;
     private GOLGUI gui;
     private Timer timer;
@@ -48,7 +48,7 @@ public class GOLApplication extends Application {
     }
 
     private void update() {
-        board = board.tick();
+        board = board.applyEvolutionRulesAndGenerateNewBoard();
         gui.setNewBoard(board);
     }
 

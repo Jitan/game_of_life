@@ -3,19 +3,19 @@ package se.jroc.game_of_life;
 import java.util.Arrays;
 
 public class GOLBoard {
-    static final int STATE_ALIVE = 1;
-    static final int STATE_DEAD = 0;
-    private final int[][] board;
+    private static final int STATE_ALIVE = 1;
+    private static final int STATE_DEAD = 0;
+    private final int[][] boardArray;
 
     public GOLBoard(int size) {
-        board = new int[size][size];
+        boardArray = new int[size][size];
         setAllCellsToState(STATE_DEAD);
     }
 
-    public GOLBoard tick() {
-        GOLBoard newBoard = new GOLBoard(board.length);
-        for (int x = 0; x < board.length; x++) {
-            for (int y = 0; y < board.length; y++) {
+    public GOLBoard applyEvolutionRulesAndGenerateNewBoard() {
+        GOLBoard newBoard = new GOLBoard(boardArray.length);
+        for (int x = 0; x < boardArray.length; x++) {
+            for (int y = 0; y < boardArray.length; y++) {
                 int aliveNeighbours = countLiveNeighbourCells(x, y);
                 if (isAlive(x, y) && (aliveNeighbours == 2 || aliveNeighbours == 3)) {
                     newBoard.setAlive(x, y);
@@ -42,28 +42,28 @@ public class GOLBoard {
     }
 
     public void setAlive(int x, int y) {
-        if (insideTheBoard(x, y)) {
-            board[x][y] = STATE_ALIVE;
+        if (isInsideTheBoard(x, y)) {
+            boardArray[x][y] = STATE_ALIVE;
         }
     }
 
     public boolean isAlive(int x, int y) {
-        if (insideTheBoard(x, y)) {
-            return board[x][y] == STATE_ALIVE;
+        if (isInsideTheBoard(x, y)) {
+            return boardArray[x][y] == STATE_ALIVE;
         } else {
             return false;
         }
     }
 
     public void setDead(int x, int y){
-        if (insideTheBoard(x, y)) {
-            board[x][y] = STATE_DEAD;
+        if (isInsideTheBoard(x, y)) {
+            boardArray[x][y] = STATE_DEAD;
         }
     }
 
     public boolean isDead(int x, int y) {
-        if (insideTheBoard(x, y)) {
-            return board[x][y] == STATE_DEAD;
+        if (isInsideTheBoard(x, y)) {
+            return boardArray[x][y] == STATE_DEAD;
         } else {
             return true;
         }
@@ -81,7 +81,7 @@ public class GOLBoard {
     }
 
     public int getSize() {
-        return board.length;
+        return boardArray.length;
     }
 
     private int countLiveNeighbourCells(int x, int y) {
@@ -101,16 +101,16 @@ public class GOLBoard {
     }
 
     private void setAllCellsToState(int state) {
-        for (int[] ints : board) {
+        for (int[] ints : boardArray) {
             Arrays.fill(ints, state);
         }
     }
 
     private int maxIndex() {
-        return board.length - 1;
+        return boardArray.length - 1;
     }
 
-    private boolean insideTheBoard(int x, int y) {
+    private boolean isInsideTheBoard(int x, int y) {
         return x >= 0 && x <= maxIndex() && y >= 0 && y <= maxIndex();
     }
 }

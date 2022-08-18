@@ -67,7 +67,7 @@ public class GOLGUI {
         drawBoard();
     }
 
-    protected void drawBoard() {
+    private void drawBoard() {
         for (int x = 0; x < board.getSize(); x++) {
             for (int y = 0; y < board.getSize(); y++) {
                 if (board.isAlive(x, y)) {
@@ -82,7 +82,7 @@ public class GOLGUI {
 
     private void setCellAlive(int x, int y) {
         board.setAlive(x, y);
-        this.graphicsContext.setFill(Color.BLACK);
+        graphicsContext.setFill(Color.BLACK);
         drawRectangle(x, y);
     }
 
@@ -93,7 +93,7 @@ public class GOLGUI {
     }
 
     private void drawRectangle(int xStart, int yStart) {
-        this.graphicsContext.fillRect(xStart * CELL_SIZE, yStart * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        graphicsContext.fillRect(xStart * CELL_SIZE, yStart * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     private void drawGrid() {
